@@ -41,6 +41,7 @@ app.get("/webhook", (req, res) => {
 
   // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
+  console.log("SOMBASS POST");
     // Parse the request body from the POST
     let body = req.body;
     // Check the Incoming webhook message
