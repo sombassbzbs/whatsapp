@@ -92,6 +92,7 @@ app.post("/webhook", (req, res) => {
   });
 
   app.redeem = function (phone_number_id) {
+    console.log("SOMBASS LOG" + phone_number_id);
     axios({
       method: "POST", // Required, HTTP method, a string, e.g. POST, GET
       url:
