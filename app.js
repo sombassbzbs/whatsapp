@@ -66,7 +66,7 @@ app.post("/webhook", (req, res) => {
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         
         if (msg_body == "redeem") {
-            console.log(app.myDateTime());
+            app.redeem(phone_number_id);
         }
         
         axios({
@@ -91,6 +91,19 @@ app.post("/webhook", (req, res) => {
     }
   });
 
-  app.myDateTime = function () {
-    return Date();
+  app.redeem = function (phone_number_id) {
+    axios({
+      method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+      url:
+        "https://graph.facebook.com/v15.0/" +
+        phone_number_id +
+        "/messages?access_token=" +
+        token,
+      data: {
+        messaging_product: "whatsapp",
+        to: from,
+        text: { body: "Redeem: " + msg_body },
+      },
+      headers: { "Content-Type": "application/json" },
+    });
   };
