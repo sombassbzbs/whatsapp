@@ -44,7 +44,7 @@ app.post("/webhook", (req, res) => {
     console.log("SOMBASS POST");
     // Parse the request body from the POST
     let body = req.body;
-  console.log(body);
+  console.log(req);
     // Check the Incoming webhook message
     console.log(JSON.stringify(req.body, null, 2));
   
