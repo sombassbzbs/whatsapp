@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 const token = process.env.WHATSAPP_TOKEN;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello Sombass!! 2002');
 });
 
 app.listen(port, () => {
