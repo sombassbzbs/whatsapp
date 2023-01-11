@@ -1,7 +1,12 @@
-const express = require('express');
-const app = express();
 const port = process.env.PORT || 3000;
 const token = process.env.WHATSAPP_TOKEN;
+
+// Imports dependencies and set up http server
+const request = require("request"),
+  express = require("express"),
+  body_parser = require("body-parser"),
+  axios = require("axios").default,
+  app = express().use(body_parser.json()); // creates express http server
 
 app.get('/', (req, res) => {
   res.send('Hello Sombass!! 2002');
