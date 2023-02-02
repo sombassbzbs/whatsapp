@@ -10,7 +10,7 @@ app = express().use(body_parser.json()); // creates express http server
 
 const { MongoClient } = require('mongodb');
 // Connection URL
-const uri = "mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(url);
 // Database Name
 const dbName = 'whatsapp';
