@@ -64,16 +64,13 @@ app.post("/webhook", (req, res) => {
   // Check the Incoming webhook message
   console.log(JSON.stringify(req.body, null, 2));
   const dadaJson = JSON.stringify(req.body, null, 2);
-  
-  
-  
-  // client.connect(async err => {
-  //   const collection = client.db("whatsapp").collection("chats_data");
-  //   // perform actions on the collection object
-  //   const insertResult = await collection.insertOne(dadaJson);
-  // console.log('Inserted chats_data =>', insertResult);
-  //   client.close();
-  // });
+  client.connect(async err => {
+    const collection = client.db("whatsapp").collection("chats_data");
+    // perform actions on the collection object
+    const insertResult = await collection.insertOne(dadaJson);
+    console.log('Inserted chats_data =>', insertResult);
+    client.close();
+  });
   
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
