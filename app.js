@@ -14,22 +14,12 @@ const urlConnectString = 'mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3z
 const client = new MongoClient(urlConnectString);
 // Database Name
 const dbName = 'whatsapp';
+await client.connect();
+console.log('Connected successfully to server');
+const db = client.db(dbName);
+const collection = db.collection('chats_data');
 
 app.get('/', async (req, res) => {
-  
-  await client.connect();
-  console.log('Connected successfully to server');
-  const db = client.db(dbName);
-  const collection = db.collection('chats_data');
-  try {
-    await collection.insertOne({ _id: 1 });
-    await collection.insertOne({ _id: 1 }); // duplicate key error
-  } catch (error) {
-    if (error instanceof MongoServerError) {
-      console.log(`Error worth logging: ${error}`); // special case for some reason
-    }
-    throw error; // still want to crash
-  }
   res.send('Hello Sombass!! 2002');
 });
 
