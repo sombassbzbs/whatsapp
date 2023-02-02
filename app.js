@@ -15,8 +15,6 @@ const client = new MongoClient(uri);
 // Database Name
 const dbName = 'whatsapp';
 
-
-
 app.get('/', async (req, res) => {
   
   await client.connect();
