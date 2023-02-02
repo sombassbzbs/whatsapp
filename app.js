@@ -8,10 +8,17 @@ body_parser = require("body-parser"),
 axios = require("axios").default,
 app = express().use(body_parser.json()); // creates express http server
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient } = require('mongodb');
+// Connection URL
 const uri = "mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const client = new MongoClient(url);
+// Database Name
+const dbName = 'whatsapp';
 
+await client.connect();
+console.log('Connected successfully to server');
+const db = client.db(dbName);
+const collection = db.collection('chats_data');
 
 app.get('/', (req, res) => {
   res.send('Hello Sombass!! 2002');
@@ -57,13 +64,15 @@ app.post("/webhook", (req, res) => {
   console.log(JSON.stringify(req.body, null, 2));
   const dadaJson = JSON.stringify(req.body, null, 2);
 
-  client.connect(async err => {
-    const collection = client.db("whatsapp").collection("chats_data");
-    // perform actions on the collection object
-    const insertResult = await collection.insertOne(dadaJson);
-  console.log('Inserted chats_data =>', insertResult);
-    client.close();
-  });
+
+  
+  // client.connect(async err => {
+  //   const collection = client.db("whatsapp").collection("chats_data");
+  //   // perform actions on the collection object
+  //   const insertResult = await collection.insertOne(dadaJson);
+  // console.log('Inserted chats_data =>', insertResult);
+  //   client.close();
+  // });
 
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
