@@ -55,14 +55,15 @@ app.post("/webhook", async (req, res) => {
   // Parse the request body from the POST
   let body = req.body;
   // Check the Incoming webhook message
-  console.log(JSON.stringify(req.body, null, 2));
+  // console.log(JSON.stringify(req.body, null, 2));
   // const dadaJson = JSON.parse(body);
+  console.log(req.body.entry[0].id);
   await client.connect();
   console.log('Connected successfully to server');
   const db = client.db(dbName);
   const collection = db.collection('chats_data');
   var myobj = { name: "Company Inc", address: "Highway 37" };
-  await collection.insertOne(myobj);
+  // await collection.insertOne(myobj);
   console.log('insertOne successfully to server');
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
