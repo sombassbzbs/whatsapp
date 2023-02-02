@@ -1,5 +1,7 @@
 const port = process.env.PORT || 3000;
 const token = process.env.WHATSAPP_TOKEN;
+const dbuser = process.env.DB_USER;
+const dbpass = process.env.DB_PASS;
 
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -10,7 +12,7 @@ app = express().use(body_parser.json()); // creates express http server
 
 const { MongoClient } = require('mongodb');
 // Connection URL
-const urlConnectString = 'mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority';
+const urlConnectString = 'mongodb+srv://' + dbuser + ':' + dbpass +'@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(urlConnectString);
 // Database Name
 const dbName = 'whatsapp';
