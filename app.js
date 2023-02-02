@@ -58,7 +58,7 @@ app.post("/webhook", async (req, res) => {
   // console.log(JSON.stringify(req.body, null, 2));
   // const dadaJson = JSON.parse(body);
   console.log('==================');
-  console.log(JSON.parse(body));
+  console.log(body);
   console.log(req.body.entry[0].id);
   await client.connect();
   console.log('Connected successfully to server');
