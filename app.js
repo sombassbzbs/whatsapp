@@ -11,11 +11,7 @@ app = express().use(body_parser.json()); // creates express http server
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://sombass002:VcLYM0RAbO5D1AiK@cluster0.t3zaba5.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+
 
 app.get('/', (req, res) => {
   res.send('Hello Sombass!! 2002');
@@ -59,7 +55,15 @@ app.post("/webhook", (req, res) => {
   let body = req.body;
   // Check the Incoming webhook message
   console.log(JSON.stringify(req.body, null, 2));
-  
+  const dadaJson = JSON.stringify(req.body, null, 2);
+
+  client.connect(async err => {
+    const collection = client.db("whatsapp").collection("chats_data");
+    // perform actions on the collection object
+    const insertResult = await collection.insertOne(dadaJson);
+  console.log('Inserted chats_data =>', insertResult);
+    client.close();
+  });
 
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
