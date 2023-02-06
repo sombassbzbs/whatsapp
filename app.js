@@ -82,7 +82,7 @@ app.post("/webhook", async (req, res) => {
         const response = await app.deviceLogin(wa_id, phone_number_id); 
         // if (response) {
           // const jsonData = JSON.stringify(response.data);
-          console.log(response.token);
+          console.log(response);
         // }
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
