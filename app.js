@@ -74,7 +74,7 @@ app.post("/webhook", async (req, res) => {
         let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         
-        app.saveChatLog() 
+        app.saveChatLog(body) 
 
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
