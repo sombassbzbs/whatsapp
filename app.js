@@ -2,6 +2,9 @@ const port = process.env.PORT || 3000;
 const token = process.env.WHATSAPP_TOKEN;
 const dbuser = process.env.DB_USER;
 const dbpass = process.env.DB_PASS;
+const urlApi = process.env.APP_API_URL;
+const appId = process.env.APP_ID;
+const appVersion = process.env.APP_VERSION;
 
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -59,7 +62,7 @@ app.post("/webhook", async (req, res) => {
   // Check the Incoming webhook message
   // console.log(JSON.stringify(req.body, null, 2));
   // const dadaJson = JSON.parse(body);
-
+  
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
     if (
@@ -73,9 +76,11 @@ app.post("/webhook", async (req, res) => {
         req.body.entry[0].changes[0].value.metadata.phone_number_id;
         let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-        
+        let wa_id =  req.body.entry[0].changes[0].value.contacts.wa_id;
         await app.saveChatLog(body); 
-
+        
+        await app.deviceLogin(wa_id, phone_number_id); 
+        
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
@@ -90,6 +95,28 @@ app.post("/webhook", async (req, res) => {
     }
   });
   
+  app.deviceLogin = function (wa_id, phone_number_id) {
+    axios({
+      method: "POST", 
+      url: urlApi + '/api/auth/device_login',
+      data: {
+        app_id :appId,
+        client_version: appVersion,
+        device_locale: 1033,
+        mac_address: $entry_id,
+        platform:'whatsapp',
+        uuid: wa_id + '|' + phone_number_id
+      },
+      headers: { "Content-Type": "application/json" },
+    }).then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    ;
+  };
+  
   app.saveChatLog = async function (body) {
     console.log('==================');
     await client.connect();
@@ -100,7 +127,7 @@ app.post("/webhook", async (req, res) => {
     await collection.insertOne(myobj);
     console.log('insertOne successfully to server');
   }
-
+  
   app.redeem = function (from, phone_number_id) {
     console.log("SOMBASS LOG" + phone_number_id);
     axios({
@@ -118,7 +145,7 @@ app.post("/webhook", async (req, res) => {
       headers: { "Content-Type": "application/json" },
     });
   };
-
+  
   app.responseMessage = async function(from, phone_number_id, msg_body) {
     await axios({
       method: "POST", // Required, HTTP method, a string, e.g. POST, GET
