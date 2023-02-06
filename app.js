@@ -98,7 +98,7 @@ app.post("/webhook", async (req, res) => {
   app.deviceLogin = function (wa_id, phone_number_id) {
     axios({
       method: "POST", 
-      url: urlApi + '/api/auth/device_login',
+      url: urlApi + '/api/auth/device_login?app_id=' + appId,
       data: {
         app_id :appId,
         client_version: appVersion,
@@ -111,7 +111,7 @@ app.post("/webhook", async (req, res) => {
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key":"89c1d9bafb65486aa02606f63cb86b5c",
         "Ocp-Apim-Trace":1,
-        "App-Id":appId }
+        "App-Id": appId }
     }).then(function (response) {
       console.log(JSON.stringify(response.data));
     })
