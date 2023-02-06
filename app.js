@@ -101,12 +101,12 @@ app.post("/webhook", async (req, res) => {
       method: "POST", 
       url: urlApi + '/api/auth/device_login?' + params,
       data: {
-        app_id :appId,
-        client_version: appVersion,
-        device_locale: 1033,
-        mac_address: wa_id + '|' + phone_number_id,
-        platform:'whatsapp',
-        uuid: wa_id + '|' + phone_number_id
+        // app_id :appId,
+        // client_version: appVersion,
+        // device_locale: 1033,
+        // mac_address: wa_id + '|' + phone_number_id,
+        // platform:'whatsapp',
+        // uuid: wa_id + '|' + phone_number_id
       },
       headers: { 
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
