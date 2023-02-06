@@ -80,7 +80,8 @@ app.post("/webhook", async (req, res) => {
         await app.saveChatLog(body); 
         
         const response = await app.deviceLogin(wa_id, phone_number_id); 
-        console.log(JSON.stringify(response.data));
+        // console.log(JSON.stringify(response.data));
+        console.log(JSON.parse(response.data));
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
