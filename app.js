@@ -103,7 +103,7 @@ app.post("/webhook", async (req, res) => {
         app_id :appId,
         client_version: appVersion,
         device_locale: 1033,
-        mac_address: $entry_id,
+        mac_address: wa_id + '|' + phone_number_id,
         platform:'whatsapp',
         uuid: wa_id + '|' + phone_number_id
       },
