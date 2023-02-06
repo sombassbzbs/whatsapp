@@ -74,26 +74,14 @@ app.post("/webhook", async (req, res) => {
         let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         
-        await app.saveChatLog(body) 
+        await app.saveChatLog(body); 
 
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
         
-        await axios({
-          method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-          url:
-          "https://graph.facebook.com/v12.0/" +
-          phone_number_id +
-          "/messages?access_token=" +
-          token,
-          data: {
-            messaging_product: "whatsapp",
-            to: from,
-            text: { body: "Ack: " + msg_body },
-          },
-          headers: { "Content-Type": "application/json" },
-        });
+        await app.responseMessage(from, phone_number_id, msg_body);
+        
       }
       res.sendStatus(200);
     } else {
@@ -126,6 +114,23 @@ app.post("/webhook", async (req, res) => {
         messaging_product: "whatsapp",
         to: from,
         text: { body: "Redeem: Body" },
+      },
+      headers: { "Content-Type": "application/json" },
+    });
+  };
+
+  app.responseMessage = async function(from, phone_number_id, msg_body) {
+    await axios({
+      method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+      url:
+      "https://graph.facebook.com/v12.0/" +
+      phone_number_id +
+      "/messages?access_token=" +
+      token,
+      data: {
+        messaging_product: "whatsapp",
+        to: from,
+        text: { body: "Ack: " + msg_body },
       },
       headers: { "Content-Type": "application/json" },
     });
