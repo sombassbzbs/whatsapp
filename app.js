@@ -80,10 +80,10 @@ app.post("/webhook", async (req, res) => {
         await app.saveChatLog(body); 
         
         const response = await app.deviceLogin(wa_id, phone_number_id); 
-        if (response) {
-          const jsonData = JSON.stringify(response.data);
-          console.log(jsonData.token);
-        }
+        // if (response) {
+          // const jsonData = JSON.stringify(response.data);
+          console.log(response.token);
+        // }
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
@@ -118,6 +118,7 @@ app.post("/webhook", async (req, res) => {
         "App-Id": appId }
       }).then(function (response) {
         //console.log(JSON.stringify(response.data));
+        return JSON.stringify(response.data)
       })
       .catch(function (error) {
         console.log("ERROR===============");
