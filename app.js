@@ -96,9 +96,10 @@ app.post("/webhook", async (req, res) => {
   });
   
   app.deviceLogin = function (wa_id, phone_number_id) {
+    let params = 'app_id='+ appId +'&client_version' + appVersion + '&device_locale=1033'+  '&mac_address=' + wa_id + '|' + phone_number_id + '&platform=whatsapp' + '&uuid='+ wa_id + '|' + phone_number_id
     axios({
       method: "POST", 
-      url: urlApi + '/api/auth/device_login?app_id=' + appId,
+      url: urlApi + '/api/auth/device_login?' + params,
       data: {
         app_id :appId,
         client_version: appVersion,
