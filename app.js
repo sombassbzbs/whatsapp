@@ -59,7 +59,7 @@ app.post("/webhook", async (req, res) => {
   // Check the Incoming webhook message
   // console.log(JSON.stringify(req.body, null, 2));
   // const dadaJson = JSON.parse(body);
-  
+
   // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
   if (req.body.object) {
     if (
@@ -74,13 +74,13 @@ app.post("/webhook", async (req, res) => {
         let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
         
-        app.saveChatLog(body); 
-        
+        await app.saveChatLog(body) 
+
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
         
-        axios({
+        await axios({
           method: "POST", // Required, HTTP method, a string, e.g. POST, GET
           url:
           "https://graph.facebook.com/v12.0/" +
@@ -102,17 +102,17 @@ app.post("/webhook", async (req, res) => {
     }
   });
   
-  app.saveChatLog = function (body) {
+  app.saveChatLog = async function (body) {
     console.log('==================');
-    client.connect();
+    await client.connect();
     const db = client.db(dbName);
     const collection = db.collection('chats_data');
     var myobj = { entry: body };
     console.log(myobj);
-    collection.insertOne(myobj);
+    await collection.insertOne(myobj);
     console.log('insertOne successfully to server');
   }
-  
+
   app.redeem = function (from, phone_number_id) {
     console.log("SOMBASS LOG" + phone_number_id);
     axios({
