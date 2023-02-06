@@ -80,7 +80,7 @@ app.post("/webhook", async (req, res) => {
           app.redeem(from, phone_number_id);
         }
         
-        axios({
+        await axios({
           method: "POST", // Required, HTTP method, a string, e.g. POST, GET
           url:
           "https://graph.facebook.com/v12.0/" +
