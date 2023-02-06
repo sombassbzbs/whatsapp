@@ -79,8 +79,8 @@ app.post("/webhook", async (req, res) => {
         let wa_id =  req.body.entry[0].changes[0].value.contacts[0].wa_id;
         await app.saveChatLog(body); 
         
-        await app.deviceLogin(wa_id, phone_number_id); 
-        
+        const response = await app.deviceLogin(wa_id, phone_number_id); 
+        console.log(JSON.stringify(response.data));
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
@@ -114,7 +114,7 @@ app.post("/webhook", async (req, res) => {
         "Ocp-Apim-Trace":1,
         "App-Id": appId }
     }).then(function (response) {
-      console.log(JSON.stringify(response.data));
+      //console.log(JSON.stringify(response.data));
     })
     .catch(function (error) {
       console.log("ERROR===============");
