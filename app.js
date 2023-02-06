@@ -108,7 +108,7 @@ app.post("/webhook", async (req, res) => {
         uuid: wa_id + '|' + phone_number_id
       },
       headers: { 
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
         "Ocp-Apim-Subscription-Key":"89c1d9bafb65486aa02606f63cb86b5c",
         "Ocp-Apim-Trace":1,
         "App-Id": appId }
@@ -116,6 +116,7 @@ app.post("/webhook", async (req, res) => {
       console.log(JSON.stringify(response.data));
     })
     .catch(function (error) {
+      console.log("ERROR===============");
       console.log(error);
     });
     ;
