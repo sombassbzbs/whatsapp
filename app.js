@@ -107,7 +107,11 @@ app.post("/webhook", async (req, res) => {
         platform:'whatsapp',
         uuid: wa_id + '|' + phone_number_id
       },
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key":"89c1d9bafb65486aa02606f63cb86b5c",
+        "Ocp-Apim-Trace":1,
+        "App-Id":appId }
     }).then(function (response) {
       console.log(JSON.stringify(response.data));
     })
