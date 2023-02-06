@@ -76,7 +76,7 @@ app.post("/webhook", async (req, res) => {
         req.body.entry[0].changes[0].value.metadata.phone_number_id;
         let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
         let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body; // extract the message text from the webhook payload
-        let wa_id =  req.body.entry[0].changes[0].value.contacts.wa_id;
+        let wa_id =  req.body.entry[0].changes[0].value.contacts[0].wa_id;
         await app.saveChatLog(body); 
         
         await app.deviceLogin(wa_id, phone_number_id); 
