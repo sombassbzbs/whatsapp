@@ -66,7 +66,7 @@ app.post("/webhook", async (req, res) => {
   console.log('Connected successfully to server');
   const db = client.db(dbName);
   const collection = db.collection('chats_data');
-  var myobj = { entry: req.body.entry[0] };
+  var myobj = { entry: body };
   console.log(myobj);
   await collection.insertOne(myobj);
   console.log('insertOne successfully to server');
