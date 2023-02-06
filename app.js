@@ -80,8 +80,10 @@ app.post("/webhook", async (req, res) => {
         await app.saveChatLog(body); 
         
         const response = await app.deviceLogin(wa_id, phone_number_id); 
-        const jsonData = JSON.stringify(response.data);
-        console.log(jsonData.token);
+        if (response) {
+          const jsonData = JSON.stringify(response.data);
+          console.log(jsonData.token);
+        }
         if (msg_body == "redeem") {
           app.redeem(from, phone_number_id);
         }
@@ -114,58 +116,58 @@ app.post("/webhook", async (req, res) => {
         "Ocp-Apim-Subscription-Key":"89c1d9bafb65486aa02606f63cb86b5c",
         "Ocp-Apim-Trace":1,
         "App-Id": appId }
-    }).then(function (response) {
-      //console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log("ERROR===============");
-      console.log(error);
-    });
-    ;
-  };
-  
-  app.saveChatLog = async function (body) {
-    console.log('==================');
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection('chats_data');
-    var myobj = { entry: body };
-    console.log(myobj);
-    await collection.insertOne(myobj);
-    console.log('insertOne successfully to server');
-  }
-  
-  app.redeem = function (from, phone_number_id) {
-    console.log("SOMBASS LOG" + phone_number_id);
-    axios({
-      method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-      url:
-      "https://graph.facebook.com/v15.0/" +
-      phone_number_id +
-      "/messages?access_token=" +
-      token,
-      data: {
-        messaging_product: "whatsapp",
-        to: from,
-        text: { body: "Redeem: Body" },
-      },
-      headers: { "Content-Type": "application/json" },
-    });
-  };
-  
-  app.responseMessage = async function(from, phone_number_id, msg_body) {
-    await axios({
-      method: "POST", // Required, HTTP method, a string, e.g. POST, GET
-      url:
-      "https://graph.facebook.com/v12.0/" +
-      phone_number_id +
-      "/messages?access_token=" +
-      token,
-      data: {
-        messaging_product: "whatsapp",
-        to: from,
-        text: { body: "Ack: " + msg_body },
-      },
-      headers: { "Content-Type": "application/json" },
-    });
-  };
+      }).then(function (response) {
+        //console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log("ERROR===============");
+        console.log(error);
+      });
+      ;
+    };
+    
+    app.saveChatLog = async function (body) {
+      console.log('==================');
+      await client.connect();
+      const db = client.db(dbName);
+      const collection = db.collection('chats_data');
+      var myobj = { entry: body };
+      console.log(myobj);
+      await collection.insertOne(myobj);
+      console.log('insertOne successfully to server');
+    }
+    
+    app.redeem = function (from, phone_number_id) {
+      console.log("SOMBASS LOG" + phone_number_id);
+      axios({
+        method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+        url:
+        "https://graph.facebook.com/v15.0/" +
+        phone_number_id +
+        "/messages?access_token=" +
+        token,
+        data: {
+          messaging_product: "whatsapp",
+          to: from,
+          text: { body: "Redeem: Body" },
+        },
+        headers: { "Content-Type": "application/json" },
+      });
+    };
+    
+    app.responseMessage = async function(from, phone_number_id, msg_body) {
+      await axios({
+        method: "POST", // Required, HTTP method, a string, e.g. POST, GET
+        url:
+        "https://graph.facebook.com/v12.0/" +
+        phone_number_id +
+        "/messages?access_token=" +
+        token,
+        data: {
+          messaging_product: "whatsapp",
+          to: from,
+          text: { body: "Ack: " + msg_body },
+        },
+        headers: { "Content-Type": "application/json" },
+      });
+    };
